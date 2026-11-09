@@ -1,9 +1,6 @@
-# Spatial-Transcriptomics-Ulm-Project-Wnt1
-R-based spatial transcriptomics pipeline for analyzing WNT1 G177C-associated gene expression changes across murine musculoskeletal tissues, integrating quality control, Seurat normalization, pseudobulk analysis, PCA, differential expression, and gene set enrichment analysis (GSEA).
+# 🧬 Spatial Transcriptomics Analysis of WNT1-Associated Musculoskeletal Alterations
 
-# Spatial Transcriptomics Analysis of WNT1-Associated Musculoskeletal Alterations
-
-### R-Based Bioinformatics Pipeline | Ulm University Collaboration
+### 🔬 R-Based Bioinformatics Pipeline | Ulm University Research Collaboration
 
 **Author:** David Carro Vázquez, PhD  
 **Research collaboration:** Ulm University, Germany  
@@ -12,182 +9,304 @@ R-based spatial transcriptomics pipeline for analyzing WNT1 G177C-associated gen
 
 ---
 
-## Project Overview
+## 📖 Project Overview
 
-This repository documents an R-based computational workflow developed for the analysis of spatial transcriptomics data from murine musculoskeletal tissues, focusing on gene expression alterations associated with the *Wnt1* G177C mutation.
+This repository documents an R-based computational pipeline developed to investigate spatially resolved gene expression alterations associated with the *Wnt1* G177C mutation in murine musculoskeletal tissues.
 
-The project compares wild-type (*Wnt1*+/+) and homozygous knock-in (*Wnt1* G177C/G177C) samples to characterize genotype-associated transcriptomic changes across different musculoskeletal tissue compartments.
+The study compares wild-type (*Wnt1*+/+) and homozygous knock-in (*Wnt1* G177C/G177C) samples to characterize genotype-associated transcriptional changes across anatomically distinct tissue compartments.
 
-The pipeline integrates spatially resolved transcriptomic data processing, quality control, normalization, dimensionality reduction, differential expression analysis, and functional pathway enrichment.
+The computational framework integrates spatial transcriptomics preprocessing, quality control, normalization, pseudobulk expression profiling, dimensionality reduction, differential expression analysis, gene set enrichment analysis, and spatial neighborhood exploration.
 
-The workflow was developed as part of a research collaboration with Ulm University, Germany.
+The workflow was developed in the context of a research collaboration with Ulm University, Germany.
 
-## Research Objectives
+## 🎯 Research Objectives
 
 1. Characterize spatially resolved gene expression patterns across musculoskeletal tissues.
-2. Identify transcriptomic differences between wild-type and WNT1 G177C knock-in samples.
-3. Investigate tissue-specific molecular signatures associated with the WNT1 mutation.
+2. Identify transcriptional alterations associated with the *Wnt1* G177C mutation.
+3. Investigate tissue-specific molecular signatures distinguishing wild-type and knock-in samples.
 4. Identify biological pathways potentially affected by genotype-associated transcriptional changes.
-5. Develop an integrated computational framework for reproducible spatial transcriptomics analysis.
+5. Compare molecular signatures obtained through complementary transcriptomic analysis methods.
+6. Develop a documented computational framework for spatial transcriptomics analysis.
 
-## Biological Samples and Tissue Regions
+## 🧪 Biological Samples and Tissue Regions
 
 The analysis focuses on two experimental genotypes:
 
 - **Wild-type (WT):** *Wnt1*+/+
 - **Knock-in (KI):** *Wnt1* G177C/G177C
 
-The spatial transcriptomics analysis encompasses the following tissue regions:
+The spatial transcriptomics datasets encompass five musculoskeletal tissue regions:
 
-- Bone marrow (BM)
-- Callus cartilage
-- Callus bone
-- Cortical bone
-- Muscle
+| Tissue Region | Abbreviation | Biological Context |
+|---|---|---|
+| Bone marrow | BM | Hematopoietic and skeletal microenvironment |
+| Callus cartilage | — | Cartilaginous component of the repair tissue |
+| Callus bone | — | Bone formation and remodeling within the callus |
+| Cortical bone | — | Structural skeletal compartment |
+| Muscle | — | Musculoskeletal tissue surrounding the skeletal region |
 
-These tissue-specific analyses enable investigation of molecular alterations across distinct musculoskeletal compartments.
+Tissue-specific analyses allow the investigation of heterogeneous transcriptional responses to the WNT1 mutation across distinct anatomical compartments.
 
-## Computational Analysis Pipeline
+---
 
-### 1. Data Import and Quality Control
+## ⚙️ Computational Analysis Pipeline
 
-- Import of 10x Genomics spatial transcriptomics expression matrices in HDF5 format.
-- Creation of Seurat objects for individual samples.
-- Assignment of spatial barcodes to tissue-specific anatomical regions.
-- Calculation and visualization of barcode-level quality metrics, including:
+### 🔹 1. Data Import and Barcode Quality Control
+
+The pipeline imports 10x Genomics spatial transcriptomics expression matrices and integrates spatial barcode annotations with anatomical region information.
+
+**Main analytical steps:**
+
+- Import HDF5 gene expression matrices using `Read10X_h5()`.
+- Generate Seurat objects for individual samples.
+- Match spatial barcode identifiers with tissue-specific annotation tables.
+- Construct tissue-specific expression datasets.
+- Calculate barcode-level quality-control metrics, including:
   - Number of detected genes per barcode.
   - Total unique molecular identifiers (UMIs).
   - Transcriptomic complexity.
-  - Fraction of expression contributed by the 50 most abundant genes.
-- Generation of quality-control summaries and diagnostic plots.
+  - Fraction of total expression contributed by the 50 most abundant genes.
+- Generate quality-control tables, histograms, violin plots, and diagnostic scatter plots.
 
-### 2. Data Normalization and Preprocessing
+These procedures support the characterization of transcriptomic data quality and the identification of technical differences between samples and tissue compartments.
 
-- Processing of tissue-specific expression matrices using Seurat.
-- Normalization of transcriptomic expression profiles.
-- Preparation of normalized and raw-count expression matrices for downstream analyses.
-- Organization of datasets by genotype and anatomical region.
+### 🔹 2. Data Normalization and Preprocessing
 
-### 3. Pseudobulk Gene Expression Analysis
+Expression matrices are processed using Seurat-based workflows to prepare the data for downstream analyses.
 
-- Aggregation of transcript counts into pseudobulk expression profiles.
-- Library-size normalization using counts per million (CPM).
-- Calculation of genotype-associated log2 fold changes.
-- Comparison of gene expression profiles across musculoskeletal tissues.
-- Identification of genes displaying tissue-specific expression patterns.
+**Main analytical steps:**
 
-### 4. Principal Component Analysis (PCA)
+- Organize expression matrices by genotype and anatomical region.
+- Preserve raw transcript counts for count-based analyses.
+- Normalize gene expression profiles for comparative analyses.
+- Prepare tissue-specific datasets for dimensionality reduction and differential expression analysis.
+- Generate normalized expression matrices for downstream statistical analyses.
 
-- Dimensionality reduction using normalized pseudobulk expression profiles.
-- Visualization of transcriptomic variation between genotypes.
-- Extraction of principal component gene loadings.
-- Identification of genes contributing to genotype-associated transcriptomic variation.
-- Generation of PCA-based gene signatures for downstream functional analysis.
+### 🔹 3. Pseudobulk Gene Expression Analysis
 
-### 5. Differential Gene Expression Analysis
+Pseudobulk analysis is used to investigate genotype-associated gene expression changes at the tissue level.
 
-- Differential expression analysis comparing WNT1 G177C knock-in and wild-type samples.
-- Application of MAST for modeling barcode-level gene expression differences.
-- Estimation of genotype-associated expression changes.
-- Identification and visualization of differentially expressed genes.
-- Comparison of differential expression signatures across tissue regions.
+**Main analytical steps:**
 
-### 6. Gene Set Enrichment Analysis (GSEA)
+- Aggregate raw transcript counts from spatial barcodes into tissue- and genotype-specific expression profiles.
+- Apply library-size normalization using counts per million (CPM).
+- Calculate log2 fold changes between knock-in and wild-type expression profiles.
+- Identify genes displaying increased or decreased expression in knock-in tissues.
+- Compare gene expression changes across anatomical compartments.
+- Investigate tissue-enriched transcriptional patterns.
 
-- Functional enrichment analysis using the `fgsea` R package.
-- Integration of curated gene sets from MSigDB.
-- Pathway enrichment analysis based on:
-  - Pseudobulk log2 fold-change rankings.
+**Expression comparison:**
+
+`log2FC = log2(Expression_KI / Expression_WT)`
+
+Positive log2 fold changes indicate higher relative expression in knock-in samples, whereas negative values indicate higher relative expression in wild-type samples.
+
+### 🔹 4. Principal Component Analysis (PCA)
+
+PCA is applied to normalized pseudobulk expression profiles to investigate transcriptomic variation and genotype-associated molecular signatures.
+
+**Main analytical steps:**
+
+- Perform dimensionality reduction using normalized expression matrices.
+- Visualize transcriptomic differences between wild-type and knock-in samples.
+- Examine the contribution of individual genes to principal components.
+- Extract principal component gene loadings.
+- Identify genes associated with major axes of transcriptomic variation.
+- Generate PCA-derived gene rankings for downstream functional enrichment analysis.
+
+PCA-based signatures complement differential expression analysis by identifying genes contributing to transcriptomic variation rather than exclusively measuring differences in mean expression.
+
+### 🔹 5. Differential Gene Expression Analysis Using MAST
+
+The pipeline implements MAST to investigate genotype-associated gene expression differences at the spatial barcode level.
+
+**Main analytical steps:**
+
+- Compare wild-type and WNT1 G177C knock-in expression profiles.
+- Apply MAST-based statistical modeling to barcode-level expression data.
+- Account for differences in gene detection rates through the configured model.
+- Estimate genotype-associated expression changes.
+- Identify candidate differentially expressed genes.
+- Generate gene expression comparisons and visualizations.
+- Compare differential expression signatures across tissue regions.
+
+Spatial barcodes are treated as transcriptomic observations and do not necessarily represent individual cells.
+
+### 🔹 6. Gene Set Enrichment Analysis (GSEA)
+
+Functional enrichment analysis is performed to identify biological pathways associated with genotype-dependent transcriptional alterations.
+
+**Main analytical steps:**
+
+- Retrieve curated mouse gene sets from MSigDB using `msigdbr`.
+- Perform enrichment analysis using `fgsea`.
+- Investigate Hallmark, C2, and C5 gene set collections.
+- Generate ranked gene lists based on:
+  - Pseudobulk log2 fold changes.
   - PCA-derived gene loadings.
-  - Differential expression-derived gene rankings.
-- Identification of biological pathways associated with genotype-dependent transcriptomic alterations.
+  - MAST differential expression results.
+- Calculate enrichment statistics and adjusted significance values.
+- Compare enriched biological pathways across tissue regions and analytical methods.
 
-### 7. Comparative Transcriptomic Analysis
+This approach supports the functional interpretation of transcriptomic changes associated with the WNT1 mutation.
 
-- Comparison of gene expression signatures across analytical approaches.
-- Evaluation of shared and tissue-specific molecular alterations.
-- Visualization of overlapping gene signatures.
-- Investigation of transcriptomic relationships between anatomical regions.
+### 🔹 7. Comparative Transcriptomic Analysis
 
-### 8. Spatial and Transcriptomic Neighborhood Analysis
+The workflow integrates complementary gene expression signatures to investigate the consistency and tissue specificity of genotype-associated transcriptional changes.
 
-- Exploration of transcriptomic relationships between spatially defined regions.
-- Comparison of spatial proximity and gene expression similarity.
-- Visualization of neighborhood relationships to investigate tissue organization.
+**Main analytical steps:**
 
-## Technologies and R Packages
+- Compare gene rankings generated through pseudobulk analysis, PCA, and MAST.
+- Identify overlapping and method-specific gene signatures.
+- Evaluate shared and tissue-specific transcriptional alterations.
+- Generate comparative visualizations, including gene-overlap diagrams.
+- Investigate molecular patterns associated with the WNT1 mutation across musculoskeletal compartments.
 
-**Core analysis**
+### 🔹 8. Spatial and Transcriptomic Neighborhood Analysis
 
-- R and R Markdown
-- Seurat and SeuratObject
-- Matrix
-- edgeR
-- MAST
+The pipeline includes exploratory analyses of spatial and molecular relationships between transcriptomic observations.
 
-**Functional genomics**
+**Main analytical steps:**
 
-- fgsea
-- msigdbr
+- Investigate relationships between spatially defined transcriptomic neighborhoods.
+- Evaluate spatial proximity between observations.
+- Compare spatial adjacency with gene expression similarity.
+- Visualize neighborhood relationships using shared low-dimensional representations.
+- Explore the relationship between anatomical organization and transcriptomic heterogeneity.
 
-**Data processing and visualization**
+---
 
-- dplyr
-- data.table
-- ggplot2
-- patchwork
-- ggtext
-- readxl
-- knitr
-- htmltools
+## 📂 Input Data Format and Structure
 
-## Data Availability
+The pipeline requires two complementary input types.
 
-The workflow is designed to process 10x Genomics spatial transcriptomics expression matrices together with tissue-specific barcode annotation files.
+### 1. Gene Expression Matrices
 
-Raw sequencing data and sample-specific expression matrices are not included in this repository.
+10x Genomics HDF5 files:
 
-The analytical code is provided to document the computational methodology and support reproducibility, subject to the availability of appropriately formatted input datasets.
+`{SampleID}_filtered_feature_bc_matrix.h5`
 
-## Author and Scientific Contributions
+These files contain gene expression count matrices indexed by spatial barcodes.
+
+### 2. Tissue-Specific Barcode Annotation Files
+
+Excel files:
+
+`{SampleID}_{Subregion}.xlsx`
+
+Each annotation file contains:
+
+- **Column 1:** Spatial barcode identifiers.
+- **Additional columns:** Tissue-specific annotations and available sample metadata.
+
+The R workflow matches barcode identifiers between the expression matrices and annotation tables to construct tissue-specific Seurat objects.
+
+**Example input structure:**
+
+```text
+data/
+├── WT_filtered_feature_bc_matrix.h5
+├── KI_filtered_feature_bc_matrix.h5
+├── WT_BM.xlsx
+├── KI_BM.xlsx
+├── WT_CallusCartilage.xlsx
+├── KI_CallusCartilage.xlsx
+├── WT_CallusBone.xlsx
+├── KI_CallusBone.xlsx
+├── WT_CorticalBone.xlsx
+├── KI_CorticalBone.xlsx
+├── WT_Muscle.xlsx
+└── KI_Muscle.xlsx
+```
+
+---
+
+## 🧰 Technologies and R Packages
+
+### 🔬 Core Bioinformatics
+
+- **R and R Markdown:** Computational analysis and reproducible reporting.
+- **Seurat / SeuratObject:** Spatial transcriptomics data processing and organization.
+- **Matrix:** Efficient manipulation of sparse expression matrices.
+- **edgeR:** CPM normalization and pseudobulk expression processing.
+- **MAST:** Barcode-level differential expression analysis.
+
+### 🧬 Functional Genomics
+
+- **fgsea:** Gene set enrichment analysis.
+- **msigdbr:** Access to curated MSigDB gene sets.
+
+### 📊 Data Processing and Visualization
+
+- **dplyr / data.table:** Data manipulation and organization.
+- **ggplot2:** Statistical visualization.
+- **patchwork:** Multi-panel figure generation.
+- **ggtext:** Formatted scientific plot labels.
+- **readxl:** Import of barcode annotation tables.
+- **knitr / htmltools:** Automated reporting and HTML output.
+
+---
+
+## ▶️ Reproducibility and Usage
+
+The workflow is implemented in R Markdown and organized into sequential analytical sections.
+
+To reproduce the analysis:
+
+1. Install the required R and Bioconductor packages.
+2. Obtain compatible 10x Genomics expression matrices and tissue-specific barcode annotation files.
+3. Configure the input data directory in the R Markdown script.
+4. Define the sample identifiers and anatomical regions.
+5. Execute the quality-control and preprocessing sections.
+6. Run the downstream pseudobulk, PCA, differential expression, and enrichment analyses.
+7. Review the generated figures, statistical summaries, and functional enrichment results.
+
+The workflow contains dataset-specific configuration parameters and may require adaptation to other experimental designs or sequencing platforms.
+
+---
+
+## 📊 Data Availability
+
+Raw sequencing data, spatial barcode annotation files, and sample-specific expression matrices are not included in this repository.
+
+The computational code is provided to document the analytical methodology and facilitate adaptation of the workflow to compatible datasets.
+
+Reproduction of the original analyses requires access to the corresponding experimental data.
+
+---
+
+## 👨‍🔬 Author and Scientific Contributions
 
 **David Carro Vázquez, PhD**
 
 Computational bioinformatics researcher specializing in transcriptomics, spatial omics, and statistical analysis of biological datasets.
 
-This repository documents contributions to the development and implementation of a spatial transcriptomics analysis workflow, including:
+This repository documents computational contributions to the development and implementation of:
 
-- Computational preprocessing and quality-control procedures.
+- Spatial transcriptomics preprocessing and quality-control workflows.
 - Tissue-specific gene expression analysis.
-- Pseudobulk normalization and transcriptomic comparisons.
+- Pseudobulk normalization and genotype-associated expression comparisons.
 - Principal component analysis and gene signature extraction.
-- Differential expression analysis.
-- Gene set enrichment and functional interpretation.
-- Integration and visualization of genotype-associated transcriptomic patterns.
+- Barcode-level differential expression analysis using MAST.
+- Functional pathway enrichment using GSEA.
+- Comparative analysis of molecular signatures across musculoskeletal tissues.
+- Spatial and transcriptomic neighborhood exploration.
+- Statistical visualization and automated reporting.
 
 The computational workflow was developed in the context of a scientific collaboration with researchers at Ulm University, Germany.
 
-## Reproducibility and Usage
+---
 
-The analysis is implemented in R and uses established bioinformatics packages for transcriptomic data processing.
+## 📜 License
 
-To reproduce the analyses, users should:
+This project is distributed under the terms specified in the repository's [LICENSE](LICENSE) file.
 
-1. Install the required R and Bioconductor packages.
-2. Obtain compatible spatial transcriptomics expression matrices and barcode annotation files.
-3. Configure the input directory and sample identifiers in the R Markdown workflow.
-4. Execute the analysis sections in their documented order.
+---
 
-The workflow may require adaptation to different experimental designs, sample annotations, and sequencing platforms.
-
-## License
-
-Please refer to the repository's LICENSE file for the applicable terms of use.
-
-## Citation and Contact
+## 📬 Citation and Contact
 
 **David Carro Vázquez, PhD**
 
 GitHub: https://github.com/davicarro
 
-For scientific inquiries or collaboration requests, please contact the repository author through GitHub.
+For questions regarding the computational pipeline or potential scientific collaborations, please contact the repository author through GitHub.
